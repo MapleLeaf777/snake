@@ -1,17 +1,53 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
+    <div id="keys">
+        <div id="up">上</div>
+        <div id="left" style="display: inline-block;">左</div>
+        <div id="right" style="display: inline-block;">右</div>
+        <div id="down">下</div>
+    </div>
 </body>
 <script type="text/javascript">
+    const keys = document.querySelector("#keys");
+    const Kup = document.querySelector("#up");
+    const Kdown = document.querySelector("#down");
+    const Kleft = document.querySelector("#left");
+    const Kright = document.querySelector("#right");
+    keys.style.width="200px";
+    keys.style.height="200px";
+    keys.style.backgroundColor="red";
+
+    Kup.style.width="60px";
+    Kup.style.height="60px";
+    Kup.style.backgroundColor="blue";
+    Kup.style.margin="0 auto";
+
+    Kleft.style.width="60px";
+    Kleft.style.height="60px";
+    Kleft.style.backgroundColor="blue";
+
+    Kright.style.width="60px";
+    Kright.style.height="60px";
+    Kright.style.backgroundColor="blue";
+    Kright.style.position="relative";
+    Kright.style.left="75px";
+
+    Kdown.style.width="60px";
+    Kdown.style.height="60px";
+    Kdown.style.backgroundColor="blue";
+    Kdown.style.margin="0 auto";
+
+
+
     const canvas=document.createElement("canvas");
     canvas.width=600;
     canvas.height=600;
-    canvas.style.position="relative";
-    canvas.style.left="400px";
     canvas.style.backgroundColor="#42d291";
     document.body.append(canvas);
     const ctx=canvas.getContext("2d");
@@ -98,9 +134,25 @@
                 Y=0;
             }
         })
+        Kup.addEventListener("click",function(e){
+            Y=-30;
+            X=0;
+        })
+        Kleft.addEventListener("click",function(e){
+            X=-30;
+            Y=0;
+        })
+        Kright.addEventListener("click",function(e){
+            X=30;
+            Y=0;
+        })
+        Kdown.addEventListener("click",function(e){
+            Y=30;
+            X=0;
+        })
 
         //判断x轴的距离与y轴的距离，利用for循环减少两者距离
-       /* if (((she[0].x-suiX)<0)&&(X!==-30)){
+      /*  if (((she[0].x-suiX)<0)&&(X!==-30)){
             X=30;Y=0;
             for(let i=1;i<she.length;i++){
                 if ((she[0].x+30===she[i].x)){
@@ -121,8 +173,8 @@
             X=0;Y=-30;
 
 
-        }*/
-
+        }
+*/
 
 
         //绘制蛇
@@ -144,7 +196,7 @@
         }
 
 
-    },500);
+    },300);
 
 
 </script>
