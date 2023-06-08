@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+    const canvas=document.createElement("canvas");
+    canvas.width=600;
+    canvas.height=600;
+    canvas.style.position="relative";
+    canvas.style.left="400px";
+    canvas.style.backgroundColor="#42d291";
+    document.body.append(canvas);
+    const ctx=canvas.getContext("2d");
+    ctx.strokeStyle="#ffffff";
+
+    //预设所有变量以及随机数
+    let X=30;
+    let Y=0;
+    function get(){
+        return (Math.floor(Math.random()*20))*30;
+    }
+    let suiX=get();
+    let suiY=get();
+    /*
+    let sheX=get();
+    let sheY=get();
+    */
+    let she=[ {x:90,y:30},{x:60,y:30} ];
+
+
+
+    //定时器主要运行框架
+    setInterval(function(){
+
+        //清除画布
+        ctx.clearRect(0,0,600,600);
+
+
+        //绘制地图网格
+        for(let i=30;i<600;i+=30){
+            ctx.moveTo(i,0);
+            ctx.lineTo(i,600);
+            ctx.moveTo(0,i);
+            ctx.lineTo(600,i);
+            ctx.stroke();
+        }
+
+        //不让蛇吃自己
+        for(let i=2;i<she.length;i++){
+            if((she[0].x===she[i].x)&&(she[0].y===she[i].y)){
+                alert('游戏结束');
+            }
+        }
+
+        //传送墙
+        if(she[0].x<0){
+            she[0].x=600;
+        }else if(she[0].x>570){
+            she[0].x=0;
+        }else if(she[0].y<0){
+            she[0].y=600;
+        }else if(she[0].y>570){
+            she[0].y=0;
+        }
+
+        //绘制随机生成食物
+            if (suiX===she[0].x&&suiY===she[0].y){
+                for(let i=0;i<she.length;i++){
+                    do {
+                        suiX=get();
+                        suiY=get();
+                    }while((suiX===she[i].x)&&(suiY===she[i].y))
+                }
+            }else{
+                she.pop();
+            }
+            ctx.fillStyle="#fcd12a";
+            ctx.fillRect(suiX,suiY,30,30);
+
+            //键盘控制
+        document.addEventListener("keyup",function(event){
+            if ((event.key==="w"||event.key==="W")&&(Y!==30)){
+                Y=-30;
+                X=0;
+            }else if ((event.key==="s"||event.key==="S")&&(Y!==-30)){
+                Y=30;
+                X=0;
+            }
+            if ((event.key==="d"||event.key==="D")&&(X!==-30)){
+                X=30;
+                Y=0;
+            }else if ((event.key==="a"||event.key==="A")&&(X!==30)){
+                X=-30;
+                Y=0;
+            }
+        })
+
+        //判断x轴的距离与y轴的距离，利用for循环减少两者距离
+        if (((she[0].x-suiX)<0)&&(X!==-30)){
+            X=30;Y=0;
+            for(let i=1;i<she.length;i++){
+                if ((she[0].x+30===she[i].x)){
+                    X=0;Y=30;
+                }
+            }
+
+
+        }else if(((she[0].x-suiX)>0)&&(X!==30)){
+            X=-30;Y=0;
+
+
+        }else if(((she[0].y-suiY)<0)&&(Y!==-30)){
+            X=0;Y=30;
+
+
+        }else if (((she[0].y-suiY)>0)&&(Y!==30)){
+            X=0;Y=-30;
+
+
+        }
+
+
+
+        //绘制蛇
+        let oldHead=she[0];
+        let newHead={
+            x:oldHead.x+X,
+            y:oldHead.y+Y
+        }
+        she.unshift(newHead);
+
+        for(let i=0;i<=she.length-1;i++){
+            if(i===0){
+                ctx.fillStyle="#ee0808";
+            }else{
+                ctx.fillStyle="#ff0ce3";
+            }
+
+            ctx.fillRect(she[i].x,she[i].y,30,30);
+        }
+
+
+    },1000);
+
+
+</script>
+</html>
